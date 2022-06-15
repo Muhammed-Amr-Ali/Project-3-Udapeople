@@ -172,7 +172,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/python-alpine
+      - image: cimg/python
     steps:
       - checkout
       - add_ssh_keys:
@@ -181,10 +181,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible
-            apk add --update awscli
-            apk add --update tar
-            apk add --update gzip
+            apt install ansible
+            apt install awscli
+            apt install tar
+            apt install gzip
       # - run:
       #     name: Configure server
       #     command: |
