@@ -28,7 +28,7 @@ commands:
             if(( $SUCCESS==1 )); 
             then
             #  cd ~/project/backend
-            #  npm install
+            #  sudo npm install
             #  Add revert code here. You can find this in the Getting Started section.
               exit 1
             fi
@@ -45,7 +45,7 @@ jobs:
           name: Build front-end
           command: |
             cd frontend
-            npm install
+            sudo npm install
             npm run build
       - save_cache:
           paths: [frontend/node_modules]
@@ -62,7 +62,7 @@ jobs:
           name: Back-end build
           command: |
             cd backend
-            npm install
+            sudo npm install
             npm run build
             
       - save_cache:
@@ -80,7 +80,7 @@ jobs:
           name: front-end test
           command: |
             cd frontend
-            npm install
+            sudo npm install
             npm run test
                 
   test-backend:
@@ -94,7 +94,7 @@ jobs:
           name: backend-end test
           command: |
             cd backend
-            npm install
+            sudo npm install
             npm run test
             
   scan-frontend:
@@ -108,8 +108,8 @@ jobs:
           name: front-end scan
           command: |
             cd frontend
-            npm install
-            # npm install oauth-sign@^0.9.0
+            sudo npm install
+            # sudo npm install oauth-sign@^0.9.0
             npm audit fix
             npm audit fix --force
             npm audit --audit-level=critical
@@ -125,10 +125,10 @@ jobs:
           name: backend-end scan
           command: |
             cd backend
-            npm install
+            sudo npm install
             npm audit fix
             npm audit fix --force
-            # npm install oauth-sign@^0.9.0
+            # sudo npm install oauth-sign@^0.9.0
             npm audit --audit-level=critical
       - slack/notify:
           event: fail
@@ -141,8 +141,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install tar and gzip
-          command: yum -y install tar gzip
+          nasudo me: install tar and gzip
+          command: yumsudo  -y install tar gzip
 
       - run:
           name: Ensure back-end infrastructure exists
@@ -182,10 +182,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt install ansible
-            apt install awscli
-            apt install tar
-            apt install gzip
+            sudo apt install ansible
+            sudo apt install awscli
+            sudo apt install tar
+            sudo apt install gzip
       # - run:
       #     name: Configure server
       #     command: |
