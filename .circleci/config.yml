@@ -222,13 +222,17 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/node
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            yum -y install tar npm gzip
+              sudo apt install tar
+              sudo apt install gzip
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
       - attach_workspace:
           at: ~/
       - run:
@@ -251,7 +255,7 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/python:3.10-node
     steps:
       - checkout
       - add_ssh_keys:
@@ -266,7 +270,6 @@ jobs:
             pip install ansible
             sudo apt install tar
             sudo apt install gzip
-            sudo apt install npm
       - run:
           name: Deploy backend
           command: |
