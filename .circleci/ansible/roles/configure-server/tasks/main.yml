@@ -2,10 +2,7 @@
 - name: Update/upgrade packages
   become: true
   apt:
-    update_cache: yes
-    upgrade: full
-    name: "*"
-    state: latest
+    upgrade: yes
 
 - name: Install nodejs, npm
   become: true
