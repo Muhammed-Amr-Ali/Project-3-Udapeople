@@ -170,7 +170,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-    - destroy-environment
+      - destroy-environment
 
   configure-infrastructure:
     docker:
@@ -193,7 +193,7 @@ jobs:
           command: |
             ansible-playbook configure-server.yml -i inventory.txt
 
-    - destroy-environment    
+      - destroy-environment    
 
 #   run-migrations:
 #     docker:
