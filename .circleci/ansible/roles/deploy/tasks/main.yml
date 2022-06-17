@@ -6,7 +6,7 @@
 
 - name: Extract files
   unarchive:
-    src: .circleci/ansible/roles/deploy/files/artifact.tar.gz
+    src: artifact.tar.gz
     dest: ~/backend
 
 - name: Install npm dependencies
