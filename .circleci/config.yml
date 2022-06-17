@@ -164,7 +164,6 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:project,Values=udapeople" --output text >> .circleci/ansible/inventory.txt
-            cat .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -194,7 +193,6 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
 
       - destroy-environment    
@@ -251,37 +249,36 @@ jobs:
               aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment
                     
-#   deploy-backend:
-#     docker:
-#       - image: cimg/python:3.10
-#     steps:
-      # - checkout
-      # - add_ssh_keys:
-      #     fingerprints: ["46:7f:90:a8:ef:a8:88:23:b4:c5:cc:ef:66:46:b4:bc"]
-#       - attach_workspace:
-          # at: ~/
-        # - restore_cache:
-        #   keys: [backend-build]
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             pip install ansible
-            # sudo apt install tar
-            # sudo apt install nodejs
-#       - run:
-#           name: Deploy backend
-#           command: |
-#             cd backend
-              # npm i
-              # npm run build
-              # cd ..
-              # # Zip the directory
-              # tar -C backend -czvf artifact.tar.gz .
-              # cd .circleci/ansible
-              # echo "Contents  of the inventory.txt file is -------"
-              # cat inventory.txt
-              # ansible-playbook -i inventory.txt deploy-backend.yml
-#       # Here's where you will add some code to rollback on failure  
+  deploy-backend:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["46:7f:90:a8:ef:a8:88:23:b4:c5:cc:ef:66:46:b4:bc"]
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys: [backend-build]
+      - run:
+          name: Install dependencies
+          command: |
+            pip install ansible
+            sudo apt install tar
+            sudo apt install nodejs
+      - run:
+          name: Deploy backend
+          command: |
+              cd backend
+              npm i
+              npm run build
+              cd ..
+              tar -C backend -czvf artifact.tar.gz .
+              cd .circleci/ansible
+              echo "Contents  of the inventory.txt file is -------"
+              cat inventory.txt
+              ansible-playbook -i inventory.txt deploy-backend.yml
+      # Here's where you will add some code to rollback on failure  
 
 #   smoke-test:
 #     docker:
@@ -362,8 +359,8 @@ workflows:
           requires: [configure-infrastructure]
       - deploy-frontend:
           requires: [run-migrations]
-      # - deploy-backend:
-      #     requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
