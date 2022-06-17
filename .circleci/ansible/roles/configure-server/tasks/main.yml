@@ -11,9 +11,9 @@
     
     - name: Install nodejs, npm, and pm2
       apt:
-        name:
-          - nodejs
-          - npm
-          - pm2
+        name: nodejs
         state: latest
+      npm:
+        name: pm2
+        global: yes
       become: yes
