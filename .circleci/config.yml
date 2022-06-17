@@ -228,7 +228,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum -y install tar nodejs
+            yum -y install tar npm gzip
       - attach_workspace:
           at: ~/
       - run:
@@ -265,7 +265,8 @@ jobs:
           command: |
             pip install ansible
             sudo apt install tar
-            sudo apt install nodejs
+            sudo apt install gzip
+            sudo apt install npm
       - run:
           name: Deploy backend
           command: |
