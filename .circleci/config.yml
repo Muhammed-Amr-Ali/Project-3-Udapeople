@@ -160,16 +160,17 @@ jobs:
                   --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
                   --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
                   --tags project=udapeople
-      # - run:
-      #     name: Add back-end ip to ansible inventory
-      #     command: |
-      #       # Your code here
-      #       exit 1
-      # - persist_to_workspace:
-      #     root: ~/
-      #     paths:
-      #       - project/.circleci/ansible/inventory.txt
-      # Here's where you will add some code to rollback on failure      
+      - run:
+          name: Add back-end ip to ansible inventory
+          command: |
+            touch inventory.txt
+            echo [web] > inventory.txt
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Project,Values=udapeople" --output text >> inventory.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/.circleci/ansible/inventory.txt
+    - destroy-environment
 
   configure-infrastructure:
     docker:
@@ -178,7 +179,6 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ["46:7f:90:a8:ef:a8:88:23:b4:c5:cc:ef:66:46:b4:bc"]
-      # attach workspace
       - run:
           name: Install dependencies
           command: |
@@ -186,12 +186,14 @@ jobs:
             sudo apt install awscli
             sudo apt install tar
             sudo apt install gzip
-      # - run:
-      #     name: Configure server
-      #     command: |
-      #       # Your code here
-      #       exit 1
-      # Here's where you will add some code to rollback on failure      
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Configure server
+          command: |
+            ansible-playbook configure-server.yml -i inventory.txt
+
+    - destroy-environment    
 
 #   run-migrations:
 #     docker:
