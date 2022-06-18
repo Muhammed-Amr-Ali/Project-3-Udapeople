@@ -1,18 +1,26 @@
 ---
 - name: Create backend directory
+  become: true
   file:
-    path: ~/backend
+    path: ./backend
     state: directory
 
 - name: Extract files
   become: true
   unarchive:
     src: artifact.tar.gz
-    dest: ~/backend
+    dest: ./backend
+
+- name: Create .env file
+  ansible.builtin.lineinfile:
+    dest: "./backend/.env"
+    create: yes
+    line: "{{ item }}"
+  with_items: "{{ environment }}"
 
 - name: Install npm dependencies
   shell: |
-    cd ~/backend
+    cd ./backend
     npm i
 
 - name: Starting the app with pm2
