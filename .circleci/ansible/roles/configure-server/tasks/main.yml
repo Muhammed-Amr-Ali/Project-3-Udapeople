@@ -19,3 +19,9 @@
     production: yes
     state: present
 
+- name: Create .env file
+  ansible.builtin.lineinfile:
+    dest: "./backend/.env"
+    create: yes
+    line: "{{ item.key }}={{ item.value }}"
+  with_items: "{{ environment }}"
