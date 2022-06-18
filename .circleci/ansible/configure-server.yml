@@ -34,6 +34,13 @@
         state: present
       become: yes
 
+    - name: "show contents of .env file."
+      shell: |
+        clear
+        pwd
+        cat .env
+      become: yes
+
 
   roles:
     - configure-server
