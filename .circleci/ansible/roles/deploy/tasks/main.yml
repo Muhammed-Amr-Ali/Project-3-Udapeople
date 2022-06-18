@@ -7,7 +7,7 @@
 - name: Extract files
   unarchive:
     src: artifact.tar.gz
-    dest: ~/backend
+    dest: ~/backend 
 
 - name: Install npm dependencies
   shell: |
