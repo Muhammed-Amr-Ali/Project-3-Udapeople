@@ -11,11 +11,11 @@
 
 - name: Create .env file
   ansible.builtin.lineinfile:
-    dest: "./backend/.env"
+    dest: "~/backend/.env"
     create: yes
     line: "{{ item.key }}={{ item.value }}"
   with_dict: "{{ req-env-vars }}"
-  
+
 - name: Install npm dependencies
   shell: |
     cd ~/backend
