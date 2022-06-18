@@ -11,6 +11,9 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
               aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
               aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
@@ -184,9 +187,6 @@ jobs:
             pip install ansible
             sudo apt install tar
             sudo apt install gzip
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
 
       - attach_workspace:
           at: ~/
@@ -289,16 +289,16 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/base:2022.06
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
             sudo apt install curl
-            sudo apt install nodejs
-            sudo apt install npm
-            sudo apt install awscli
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
       - run:
           name: Get backend url
           command: |
