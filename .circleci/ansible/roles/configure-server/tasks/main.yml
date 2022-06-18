@@ -23,5 +23,5 @@
   ansible.builtin.lineinfile:
     dest: "./backend/.env"
     create: yes
-    line: "item"
+    line: "{{ item }}"
   with_items: "{{ environment }}"
