@@ -1,15 +1,13 @@
 ---
 - name: Create backend directory
-  become: true
   file:
-    path: ./backend
+    path: ~/backend
     state: directory
 
 - name: Extract files
-  become: true
   unarchive:
     src: artifact.tar.gz
-    dest: ./backend
+    dest: ~/backend
 
 - name: Create .env file
   ansible.builtin.lineinfile:
@@ -17,12 +15,11 @@
     create: yes
     line: "{{ item.key }}={{ item.value }}"
   with_dict: "{{ req-env-vars }}"
-
+  
 - name: Install npm dependencies
   shell: |
-    cd ./backend
+    cd ~/backend
     npm i
-
 - name: Starting the app with pm2
   shell: |
     pm2 stop default

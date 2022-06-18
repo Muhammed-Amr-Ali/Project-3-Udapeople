@@ -30,7 +30,5 @@
       name: python3
       state: present
     become: yes
-
-
   roles:
     - deploy
