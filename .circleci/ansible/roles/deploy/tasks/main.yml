@@ -22,9 +22,9 @@
   shell: |
     cd ~/backend
     npm i
+
 - name: Starting the app with pm2
   shell: |
     cd ~/backend
     pm2 delete all
     pm2 start dist/main.js
-  when: printenv | grep "TYPEORM_ENTITIES"
