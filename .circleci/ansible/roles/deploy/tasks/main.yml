@@ -9,7 +9,7 @@
     src: artifact.tar.gz
     dest: ~/backend
 
-- name: Create .env file
+- name: Create permenant environment variables
   become: true
   ansible.builtin.lineinfile:
     dest: "/etc/environment"
@@ -24,9 +24,9 @@
     npm i
 - name: Starting the app with pm2
   shell: |
-    cd ~/backend/dist
+    cd ~/backend
     pm2 stop default
-    pm2 start main.js
+    pm2 start dist/main.js
 
 - name: Run pm2 as a service
   become: true
