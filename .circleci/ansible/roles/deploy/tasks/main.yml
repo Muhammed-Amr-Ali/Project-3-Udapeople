@@ -10,6 +10,7 @@
     dest: ~/backend
 
 - name: Create .env file
+  become: true
   ansible.builtin.lineinfile:
     dest: "/etc/environment"
     state: present
@@ -26,3 +27,8 @@
     cd ~/backend/dist
     pm2 stop default
     pm2 start main.js
+
+- name: Run pm2 as a service
+  become: true
+  shell: |
+    env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
