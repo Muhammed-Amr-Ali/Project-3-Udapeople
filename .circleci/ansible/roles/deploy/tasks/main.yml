@@ -26,4 +26,4 @@
 - name: Starting the app with pm2
   shell: |
     cd ~/backend
-    npm run start
+    pm2 start npm -- start
