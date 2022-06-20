@@ -14,8 +14,8 @@
   shell: |
     cd ~/backend
     npm i
-    printenv
 - name: Starting the app with pm2
   shell: |
+    cd ~/backend/dist
     pm2 stop default
-    pm2 start dist/main.js
+    pm2 start main.js
