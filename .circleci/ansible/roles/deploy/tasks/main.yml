@@ -13,7 +13,7 @@
   ansible.builtin.lineinfile:
     dest: "/etc/environment"
     state: present
-    regexp: "^{{ item.key }}"
+    regexp: "^{{ item.key }}="
     line: "{{ item.key }}={{ item.value }}"
   with_dict: "{{ env_vars }}"
 
