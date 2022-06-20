@@ -27,8 +27,4 @@
     cd ~/backend
     pm2 delete all
     pm2 start dist/main.js
-
-- name: Run pm2 as a service
-  become: true
-  shell: |
-    env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
+  when: printenv | grep "TYPEORM_ENTITIES"

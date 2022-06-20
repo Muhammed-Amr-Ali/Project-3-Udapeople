@@ -46,8 +46,11 @@ jobs:
   build-frontend:
     docker:
       - image: cimg/node:13.8.0
+    resource_class: medium
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - restore_cache:
           keys: [frontend-build]
       - run:
@@ -63,8 +66,12 @@ jobs:
   build-backend:
     docker:
       - image: cimg/node:13.8.0
+    resource_class: medium
+    
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - restore_cache:
           keys: [backend-build]
       - run:
@@ -81,6 +88,7 @@ jobs:
   test-frontend:
     docker:
       - image: cimg/node:13.8.0
+    resource_class: medium
     steps:
       - checkout
       - restore_cache:
@@ -95,6 +103,7 @@ jobs:
   test-backend:
     docker:
       - image: cimg/node:13.8.0
+    resource_class: medium
     steps:
       - checkout
       - restore_cache:
@@ -109,6 +118,7 @@ jobs:
   scan-frontend:
     docker:
       - image: cimg/node:13.8.0
+    resource_class: medium
     steps:
       - checkout
       - restore_cache:
@@ -126,6 +136,7 @@ jobs:
   scan-backend:
     docker:
       - image: cimg/node:13.8.0
+    resource_class: medium
     steps:
       - checkout
       - restore_cache:
@@ -147,6 +158,7 @@ jobs:
   deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
+    resource_class: small
     steps:
       - checkout
       - run:
@@ -182,8 +194,11 @@ jobs:
   configure-infrastructure:
     docker:
       - image: cimg/python:3.10
+    resource_class: small
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - add_ssh_keys:
           fingerprints: ["46:7f:90:a8:ef:a8:88:23:b4:c5:cc:ef:66:46:b4:bc"]
       - run:
@@ -206,6 +221,7 @@ jobs:
   run-migrations:
     docker:
       - image: cimg/node:13.8.0
+    resource_class: medium
     steps:
       - checkout
       - restore_cache:
@@ -229,6 +245,7 @@ jobs:
   deploy-frontend:
     docker:
       - image: cimg/node:13.8.0
+    resource_class: medium
     steps:
       - checkout
       - run:
@@ -262,6 +279,7 @@ jobs:
   deploy-backend:
     docker:
       - image: cimg/python:3.10-node
+    resource_class: medium
     steps:
       - checkout
       - add_ssh_keys:
@@ -295,6 +313,7 @@ jobs:
   smoke-test:
     docker:
       - image: cimg/node:13.8.0
+    resource_class: small
     steps:
       - checkout
       - run:
