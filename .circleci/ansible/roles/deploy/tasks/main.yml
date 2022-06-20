@@ -9,12 +9,10 @@
     src: artifact.tar.gz
     dest: ~/backend
 
-- name: Create permenant environment variables
-  become: true
+- name: Create .env file
   ansible.builtin.lineinfile:
-    dest: "/etc/environment"
-    state: present
-    regexp: "^{{ item.key }}="
+    dest: "~/backend/.env"
+    create: yes
     line: "{{ item.key }}={{ item.value }}"
   with_dict: "{{ env_vars }}"
 
