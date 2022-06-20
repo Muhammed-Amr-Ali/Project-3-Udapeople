@@ -9,6 +9,13 @@
     src: artifact.tar.gz
     dest: ~/backend
 
+- name: Create .env file
+  ansible.builtin.lineinfile:
+    dest: "/etc/environment"
+    state: present
+    regexp: "^{{ item.key }}"
+    line: "{{ item.key }}={{ item.value }}"
+  with_dict: "{{ env_vars }}"
 
 - name: Install npm dependencies
   shell: |
