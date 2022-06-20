@@ -25,7 +25,7 @@
 - name: Starting the app with pm2
   shell: |
     cd ~/backend
-    pm2 stop default
+    pm2 delete all
     pm2 start dist/main.js
 
 - name: Run pm2 as a service
