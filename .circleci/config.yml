@@ -366,7 +366,7 @@ jobs:
               --tags project=udapeople
       - destroy-environment
       - revert-migrations
-cleanup:
+  cleanup:
     docker:
       - image: amazon/aws-cli
     resource_class: small
