@@ -35,9 +35,3 @@ Resources:
         - Key: Name
           Value: !Sub backend-${ID}
 
-Outputs:
-  WorkflowID:
-    Value: !Sub ${ID}
-    Description: CircleCI Workflow ID
-    Export:
-      Name: WorkflowID
