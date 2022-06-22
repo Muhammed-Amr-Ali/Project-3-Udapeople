@@ -5,6 +5,7 @@ Parameters:
   ID:
     Description: Unique identifier.
     Type: String
+  
 
 Resources:
   InstanceSecurityGroup:
@@ -33,3 +34,10 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
+
+Outputs:
+  WorkflowID:
+    Value: !Sub ${ID}
+    Description: CircleCI Workflow ID
+    Export:
+      Name: WorkflowID
