@@ -3,9 +3,7 @@ orbs:
   slack: circleci/slack@4.10.1
 commands:
   destroy-environment:
-    description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
-    parameters:
-      # Add parameter here   
+    description: Destroy back-end and front-end cloudformation stacks given a workflow ID.  
     steps:
       - run:
           name: Destroy environments
@@ -25,14 +23,11 @@ commands:
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
-    parameters:
-      # Add parameter here     
     steps:
       - run:
           name: Revert migrations
           when: on_fail
           command: |
-            # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             SUCCESS=$(curl --insecure https://kvdb.io/HWwp6vrQsEhsXq7Y8NFCsN/migration_${CIRCLE_WORKFLOW_ID:0:7})
             if(( $SUCCESS==1 ));
             then
@@ -125,7 +120,6 @@ jobs:
           command: |
             cd frontend
             sudo npm install
-            # sudo npm install oauth-sign@^0.9.0
             npm audit fix
             npm audit fix --force
             npm audit --audit-level=critical
@@ -145,7 +139,6 @@ jobs:
             sudo npm install
             npm audit fix
             npm audit fix --force
-            # sudo npm install oauth-sign@^0.9.0
             npm audit --audit-level=critical
       - slack/notify:
           event: fail
@@ -352,10 +345,6 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            # your code here
       - run:
           name: Update cloudfront distribution
           command: |
