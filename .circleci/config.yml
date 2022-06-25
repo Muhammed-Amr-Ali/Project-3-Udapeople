@@ -267,7 +267,7 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: cimg/python:3.10-node
+      - image: cimg/python:3.10.4-node
     resource_class: medium
     steps:
       - checkout
@@ -287,7 +287,7 @@ jobs:
           name: Deploy backend
           command: |
               cd backend
-              sudo npm install
+              npm install
               npm run build
               cd ..
               tar -C backend -czvf artifact.tar.gz .
